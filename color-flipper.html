@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Flipper</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      transition: background-color 0.5s ease;
+    }
+
+    .container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #ffffff;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .color-info {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px 0;
+      padding: 10px 20px;
+      background-color: #f1f1f1;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      color: #444;
+    }
+
+    .color-box {
+      width: 100px;
+      height: 100px;
+      border-radius: 15px;
+      margin: 15px 0;
+      border: 2px solid #ccc;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Color Flipper</h1>
+    <div class="color-info" id="colorCode">Color: #ffffff</div>
+    <div class="color-box" id="colorBox" style="background-color: #ffffff;"></div>
+    <button onclick="flipColor()">Flip Color</button>
+  </div>
+
+  <script>
+    function getRandomHexColor() {
+      const hex = Math.floor(Math.random() * 0xffffff).toString(16);
+      return `#${hex.padStart(6, '0')}`;
+    }
+
+    function flipColor() {
+      const newColor = getRandomHexColor();
+      document.body.style.backgroundColor = newColor;
+      document.getElementById('colorCode').textContent = `Color: ${newColor}`;
+      document.getElementById('colorBox').style.backgroundColor = newColor;
+    }
+  </script>
+
+</body>
+</html>
