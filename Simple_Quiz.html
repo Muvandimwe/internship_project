@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Quiz App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f0f9ff, #e0f7fa);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .quiz-box {
+      background: #fff;
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .quiz-box h2 {
+      margin-bottom: 20px;
+    }
+
+    .option {
+      background: #f1f1f1;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .option:hover {
+      background-color: #cceeff;
+    }
+
+    .option.correct {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .option.wrong {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: none;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #scoreBox {
+      font-size: 20px;
+      margin-top: 20px;
+      font-weight: bold;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-box">
+    <h2 id="question">Loading question...</h2>
+    <div id="options"></div>
+    <button id="nextBtn" onclick="nextQuestion()">Next</button>
+    <button id="restartBtn" onclick="restartQuiz()">Restart</button>
+    <div id="scoreBox"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Which planet is known as the Red Planet?",
+        options: ["Earth", "Mars", "Jupiter", "Venus"],
+        answer: "Mars"
+      },
+      {
+        question: "What is the largest ocean on Earth?",
+        options: ["Atlantic", "Indian", "Pacific", "Arctic"],
+        answer: "Pacific"
+      },
+      {
+        question: "Who wrote 'Hamlet'?",
+        options: ["Shakespeare", "Twain", "Dickens", "Austen"],
+        answer: "Shakespeare"
+      },
+      {
+        question: "What is the boiling point of water?",
+        options: ["50°C", "100°C", "150°C", "212°C"],
+        answer: "100°C"
+      },
+      {
+        question: "Which language is used in web browsers?",
+        options: ["Python", "C++", "JavaScript", "Java"],
+        answer: "JavaScript"
+      }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+    const marksPerQuestion = 2;
+    const totalMarks = quizData.length * marksPerQuestion;
+
+    const questionEl = document.getElementById('question');
+    const optionsEl = document.getElementById('options');
+    const nextBtn = document.getElementById('nextBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const scoreBox = document.getElementById('scoreBox');
+
+    function loadQuestion() {
+      nextBtn.style.display = "none";
+      const currentQ = quizData[currentIndex];
+      questionEl.textContent = `Q${currentIndex + 1}: ${currentQ.question}`;
+      optionsEl.innerHTML = "";
+
+      currentQ.options.forEach(option => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.textContent = option;
+        div.onclick = () => checkAnswer(div, currentQ.answer);
+        optionsEl.appendChild(div);
+      });
+    }
+
+    function checkAnswer(selectedOption, correctAnswer) {
+      const allOptions = document.querySelectorAll('.option');
+      allOptions.forEach(opt => {
+        opt.style.pointerEvents = "none";
+        if (opt.textContent === correctAnswer) {
+          opt.classList.add('correct');
+        }
+      });
+
+      if (selectedOption.textContent === correctAnswer) {
+        score += marksPerQuestion;
+      } else {
+        selectedOption.classList.add('wrong');
+      }
+
+      nextBtn.style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+      currentIndex++;
+      if (currentIndex < quizData.length) {
+        loadQuestion();
+      } else {
+        showScore();
+      }
+    }
+
+    function showScore() {
+      questionEl.style.display = "none";
+      optionsEl.style.display = "none";
+      nextBtn.style.display = "none";
+      scoreBox.style.display = "block";
+      scoreBox.textContent = `✅ You scored ${score} out of ${totalMarks} marks`;
+      restartBtn.style.display = "inline-block";
+    }
+
+    function restartQuiz() {
+      currentIndex = 0;
+      score = 0;
+      questionEl.style.display = "block";
+      optionsEl.style.display = "block";
+      scoreBox.style.display = "none";
+      restartBtn.style.display = "none";
+      loadQuestion();
+    }
+
+    loadQuestion();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Palindrome Checker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #f0f9ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    input[type="text"] {
+      width: 90%;
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .yes {
+      color: green;
+    }
+
+    .no {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Palindrome Checker</h2>
+    <input type="text" id="textInput" placeholder="Enter word or sentence">
+    <br>
+    <button onclick="checkPalindrome()">Check</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function checkPalindrome() {
+      const input = document.getElementById("textInput").value;
+      const cleaned = input.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const reversed = cleaned.split('').reverse().join('');
+      
+      const resultEl = document.getElementById("result");
+
+      if (cleaned === '') {
+        resultEl.innerHTML = "❗ Please enter a valid input.";
+        resultEl.className = "no";
+        return;
+      }
+
+      if (cleaned === reversed) {
+        resultEl.innerHTML = `✅ "${input}" is a palindrome.`;
+        resultEl.className = "yes";
+      } else {
+        resultEl.innerHTML = `❌ "${input}" is not a palindrome.`;
+        resultEl.className = "no";
+      }
+    }
+  </script>
+
+</body>
+</html>
