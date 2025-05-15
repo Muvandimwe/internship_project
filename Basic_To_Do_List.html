@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart To-Do List</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: #fff;
+      width: 500px;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    #taskInput {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 15px;
+      font-size: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    #addBtn {
+      background-color: #27ae60;
+    }
+
+    #addBtn:hover {
+      background-color: #1e8449;
+    }
+
+    #deleteAllBtn {
+      background-color: #e74c3c;
+    }
+
+    #deleteAllBtn:hover {
+      background-color: #c0392b;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f0f4f8;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .task-text {
+      flex: 1;
+      font-size: 16px;
+      color: #2c3e50;
+    }
+
+    .task-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .task-actions button {
+      padding: 6px 10px;
+      font-size: 13px;
+      border-radius: 6px;
+    }
+
+    .update-btn {
+      background-color: #f39c12;
+    }
+
+    .update-btn:hover {
+      background-color: #d68910;
+    }
+
+    .delete-btn {
+      background-color: crimson;
+    }
+
+    .delete-btn:hover {
+      background-color: darkred;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Product To-Do List</h2>
+
+    <div class="input-row">
+      <input type="text" id="taskInput" placeholder="Enter product name (e.g. rice)">
+      <button id="addBtn" onclick="addTask()">Add</button>
+      <button id="deleteAllBtn" onclick="clearAll()">Delete All</button>
+    </div>
+
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    let taskList = document.getElementById('taskList');
+    let taskInput = document.getElementById('taskInput');
+    let selectedTask = null;
+
+    function addTask() {
+      const taskText = taskInput.value.trim();
+      if (taskText === '') {
+        alert('Please enter a product');
+        return;
+      }
+
+      const li = document.createElement('li');
+
+      const span = document.createElement('span');
+      span.className = 'task-text';
+      span.textContent = taskText;
+
+      const actions = document.createElement('div');
+      actions.className = 'task-actions';
+
+      const updateBtn = document.createElement('button');
+      updateBtn.textContent = 'Update';
+      updateBtn.className = 'update-btn';
+      updateBtn.onclick = () => {
+        taskInput.value = span.textContent;
+        selectedTask = span;
+      };
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.className = 'delete-btn';
+      deleteBtn.onclick = () => {
+        li.remove();
+        if (selectedTask === span) {
+          clearInput();
+        }
+      };
+
+      actions.appendChild(updateBtn);
+      actions.appendChild(deleteBtn);
+
+      li.appendChild(span);
+      li.appendChild(actions);
+      taskList.appendChild(li);
+
+      clearInput();
+    }
+
+    function clearInput() {
+      taskInput.value = '';
+      selectedTask = null;
+    }
+
+    function clearAll() {
+      taskList.innerHTML = '';
+      clearInput();
+    }
+
+    // If input is edited after selecting a task and user presses Add again, update instead
+    taskInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        if (selectedTask) {
+          selectedTask.textContent = taskInput.value.trim();
+          clearInput();
+        } else {
+          addTask();
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Range Counter</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 350px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    input[type="number"] {
+      width: 45%;
+      padding: 10px;
+      font-size: 16px;
+      margin: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1e8449;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #2c3e50;
+      background: #f4f6f8;
+      padding: 15px;
+      border-radius: 10px;
+      min-height: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Number Range Counter</h2>
+    <input type="number" id="start" placeholder="Start Number">
+    <input type="number" id="end" placeholder="End Number"><br>
+    <button onclick="countNumbers()">Count</button>
+
+    <div class="result" id="output"></div>
+  </div>
+
+  <script>
+    function countNumbers() {
+      const start = parseInt(document.getElementById('start').value);
+      const end = parseInt(document.getElementById('end').value);
+      const output = document.getElementById('output');
+
+      if (isNaN(start) || isNaN(end)) {
+        output.textContent = "Please enter valid numbers.";
+        return;
+      }
+
+      let result = [];
+
+      if (start < end) {
+        for (let i = start; i <= end; i++) {
+          result.push(i);
+        }
+      } else if (start > end) {
+        for (let i = start; i >= end; i--) {
+          result.push(i);
+        }
+      } else {
+        result.push(start); // same number
+      }
+
+      output.textContent = `Counting: ${result.join(', ')}`;
+    }
+  </script>
+
+</body>
+</html>
